@@ -1,21 +1,17 @@
 import requests, os, json
 from requests.auth import HTTPBasicAuth
 
+JAMF_ID = os.getenv('JAMF_ID')
+
+JAMF_PASS = os.getenv('JAMF_PASS')
+
 headers = {
     'accept':'application/json'
 }
 
-response = requests.get('https://pindrop.jamfcloud.com/JSSResource/computers', headers=headers, auth=('rwilson', os.getenv('JAMFPASS')))
+response = requests.get('https://pindrop.jamfcloud.com/JSSResource/computers', headers=headers, auth=(JAMF_ID,JAMF_PASS))
 
 
-#print "the response.text is: {}".format(response.text)
+computer_list = json.dumps(response.json(), indent=4, sort_keys=True, separators=(',', ': '))
 
-print "the response.headers is: {}".format(response.headers)
-
-
-# print "the response.status is: {}".format(response.status_code)
-#
-
-print json.dumps(response.json(), indent=4, sort_keys=True, separators=(',', ': '))
-#print type(response.content)
-#print response.content
+print computer_list
